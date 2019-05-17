@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="5dp">
+	<!-- Bottom View Start-->
+	<LinearLayout
+			android:orientation="horizontal"
+			android:id="@+id/bottom_wrapper"
+			android:layout_width="match_parent"
+			android:weightSum="1"
+			android:backgroundTint="@color/backgroundDark"
+			android:layout_height="match_parent">
+		<!--What you want to show-->
+	</LinearLayout>
+	<!-- Bottom View End-->
+
+	<!-- Surface View Start -->
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+		<ImageView
+				android:id="@+id/img"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="match_parent"/>
+		<TextView
+				android:id="@+id/name"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:textSize="20sp"/>
+		<TextView
+				android:id="@+id/time"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:textSize="16sp"/>
+	</LinearLayout>
+	<!-- Surface View End -->
+</com.daimajia.swipe.SwipeLayout>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="100dp"
+              android:paddingHorizontal="10dp"
+              android:paddingVertical="5dp">
+	<ImageView
+			android:id="@+id/img"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="match_parent"/>
+
+	<TextView
+			android:id="@+id/name"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:textSize="20sp"/>
+
+	<TextView
+			android:id="@+id/time"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:textSize="16sp"/>
+</LinearLayout>-->

@@ -1,9 +1,12 @@
 package cz.velda.phozr
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.opengl.Visibility
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -14,9 +17,18 @@ import kotlinx.android.synthetic.main.comparison_overlap.*
 
 class ComparisonOverlapActivity : AppCompatActivity() {
 
+    lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.comparison_overlap)
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        //this.image1.setImageURI(Uri.parse(preferences.getString("image1", "")))
+        this.image1.setImageURI(Uri.parse(this.intent.getStringExtra("image1")))
+        //this.image2.setImageURI(Uri.parse(preferences.getString("image2", "")))
+        this.image2.setImageURI(Uri.parse(this.intent.getStringExtra("image2")))
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -51,8 +63,13 @@ class ComparisonOverlapActivity : AppCompatActivity() {
         when (item.getItemId()) {
             R.id.pick ->
                 Toast.makeText(this, "Share is Selected", Toast.LENGTH_SHORT).show()
-            R.id.change ->
-                startActivity(Intent(this, ComparisonSideBySide::class.java))
+            R.id.change -> {
+                intent = Intent(this, ComparisonSideBySide::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                if(this.intent.extras != null)
+                    intent.putExtras(this.intent.extras)
+                startActivity(intent)
+            }
             R.id.swap -> swapPhotos()
         }
 
