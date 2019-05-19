@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:layout_width="match_parent"
                                 android:layout_height="100dp"
                                 android:paddingHorizontal="10dp"
-                                android:paddingVertical="5dp">
+                                android:paddingVertical="5dp"
+                                android:background="?android:attr/activatedBackgroundIndicator">
 	<!-- Bottom View Start-->
 	<LinearLayout
 			android:orientation="horizontal"
@@ -17,27 +19,37 @@
 	<!-- Bottom View End-->
 
 	<!-- Surface View Start -->
-	<LinearLayout
+	<android.support.constraint.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 		<ImageView
 				android:id="@+id/img"
 				android:layout_width="0dp"
-				android:layout_weight="1"
+				app:layout_constraintWidth_percent="0.33"
+				app:layout_constraintStart_toStartOf="parent"
 				android:layout_height="match_parent"/>
-		<TextView
+		<android.support.v7.widget.AppCompatTextView
 				android:id="@+id/name"
 				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-				android:textSize="20sp"/>
+				android:layout_marginLeft="5dp"
+				app:layout_constraintStart_toEndOf="@id/img"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:maxLines="1"
+				android:layout_height="30dp"
+				app:autoSizeTextType="uniform"
+				app:autoSizeMinTextSize="15dp"
+				app:autoSizeMaxTextSize="25dp"
+				app:autoSizeStepGranularity="1dp"/>
 		<TextView
 				android:id="@+id/time"
 				android:layout_width="0dp"
-				android:layout_weight="1"
+				android:layout_marginLeft="5dp"
+				app:layout_constraintWidth_percent="0.33"
+				app:layout_constraintStart_toEndOf="@id/img"
+				app:layout_constraintTop_toBottomOf="@id/name"
 				android:layout_height="wrap_content"
 				android:textSize="16sp"/>
-	</LinearLayout>
+	</android.support.constraint.ConstraintLayout>
 	<!-- Surface View End -->
 </com.daimajia.swipe.SwipeLayout>
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="background">#DAD5D5</color>
+
+    <!--<color name="backgroundSelected">#E6BABE</color>-->
+    <!--<color name="backgroundSelected">#55D81B60</color>-->
+    <color name="backgroundSelected">#5500574B</color>
     <color name="backgroundLight">#DAD5D5</color>
     <color name="backgroundDark">#201E1E</color>
 </resources>

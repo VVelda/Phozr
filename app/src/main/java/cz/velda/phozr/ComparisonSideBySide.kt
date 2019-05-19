@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 class ComparisonSideBySide : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
+    lateinit var extras: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +45,9 @@ class ComparisonSideBySide : AppCompatActivity() {
                 editor.apply()
             }
         } else {
-            //this.image1.setImageURI(Uri.parse(this.intent.getStringExtra("image1")))
-            //this.image2.setImageURI(Uri.parse(this.intent.getStringExtra("image2")))
+            extras = intent.extras
+            this.image1.setImageURI(Uri.parse(this.intent.getStringExtra("image1")))
+            this.image2.setImageURI(Uri.parse(this.intent.getStringExtra("image2")))
         }
     }
 
@@ -66,6 +68,7 @@ class ComparisonSideBySide : AppCompatActivity() {
                 val intent = Intent(this, ComparisonOverlapActivity::class.java)
                 // intent.putExtra("image1",this.image1.uri)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                intent.putExtras(extras)
                 startActivity(intent)
             }
         }

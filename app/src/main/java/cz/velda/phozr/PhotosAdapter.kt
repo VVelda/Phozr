@@ -13,6 +13,9 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.daimajia.swipe.SwipeLayout
 import com.squareup.picasso.Picasso
+import android.provider.MediaStore
+import org.apache.commons.io.FilenameUtils
+
 
 //import cz.velda.phozr.R
 
@@ -68,11 +71,19 @@ class PhotosAdapter(private val context: Context,
                 //when user's hand released.
             }
         })
-
         Glide.with(imageView.context).load(uri).into(imageView)
         //Picasso.get().load(data[pos]).into(imageView)
         //itemView.findViewById<ImageView>(R.id.img).setImageURI(data[pos]) // load image preview
-        itemView.findViewById<TextView>(R.id.name).text = "<NAME>"
+
+        var fileName: String = "<NAME>"
+        if(uri.scheme.equals("content")) { // but everything in the app should have use content scheme anyway
+            val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Images.Media.DISPLAY_NAME), null, null, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                fileName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
+                fileName = FilenameUtils.removeExtension(fileName)
+            }
+        }
+        itemView.findViewById<TextView>(R.id.name).text = fileName
         itemView.findViewById<TextView>(R.id.time).text = data[pos].toString()
 
         return itemView

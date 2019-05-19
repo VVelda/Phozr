@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.comparison_overlap.*
 class ComparisonOverlapActivity : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
+    lateinit var extras: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,7 @@ class ComparisonOverlapActivity : AppCompatActivity() {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
 
+        extras = intent.extras
         //this.image1.setImageURI(Uri.parse(preferences.getString("image1", "")))
         this.image1.setImageURI(Uri.parse(this.intent.getStringExtra("image1")))
         //this.image2.setImageURI(Uri.parse(preferences.getString("image2", "")))
@@ -66,8 +68,7 @@ class ComparisonOverlapActivity : AppCompatActivity() {
             R.id.change -> {
                 intent = Intent(this, ComparisonSideBySide::class.java)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                if(this.intent.extras != null)
-                    intent.putExtras(this.intent.extras)
+                intent.putExtras(extras)
                 startActivity(intent)
             }
             R.id.swap -> swapPhotos()
