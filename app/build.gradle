@@ -38,6 +38,9 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation "com.ibm.icu:icu4j:53.1"
+    implementation 'com.github.scribejava:scribejava-apis:6.4.1'
+    implementation 'com.gitlab.mvysny.konsume-xml:konsume-xml:0.5'
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 }

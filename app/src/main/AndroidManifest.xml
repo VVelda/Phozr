@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="cz.velda.phozr">
 
+	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 	<application
 			android:allowBackup="true"
 			android:icon="@mipmap/ic_launcher"
@@ -32,6 +35,15 @@
 				<action android:name="android.intent.action.SEND_MULTIPLE"/>
 				<category android:name="android.intent.category.DEFAULT"/>
 				<data android:mimeType="image/*"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".FlickReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="phozr" android:host="setup.flickr" />
 			</intent-filter>
 		</activity>
 	</application>

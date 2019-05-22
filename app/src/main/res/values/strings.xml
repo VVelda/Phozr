@@ -1,4 +1,13 @@
 <resources>
 	<string name="app_name">Phozr</string>
 	<string name="title_activity_main">Phozr</string>
+
+	<string name="DialogChooseWinner">And the winning one is:</string>
+	<string name="top">Top</string>
+	<string name="bottom">Bottom</string>
+
+	<string name="EventDeleted">The other photo was deleted</string>
+
+	<string name="FlickrSetUpSuccess">Flickr have been successfully set up.</string>
+	<string name="FlickrSetUpFailed">Flickr haven\'t been set up!</string>
 </resources>

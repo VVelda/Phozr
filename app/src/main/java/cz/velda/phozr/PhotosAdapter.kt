@@ -1,5 +1,6 @@
 package cz.velda.phozr
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
@@ -14,7 +15,13 @@ import com.bumptech.glide.Glide
 import com.daimajia.swipe.SwipeLayout
 import com.squareup.picasso.Picasso
 import android.provider.MediaStore
+import android.util.Log
 import org.apache.commons.io.FilenameUtils
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
+
 
 
 //import cz.velda.phozr.R
@@ -76,15 +83,32 @@ class PhotosAdapter(private val context: Context,
         //itemView.findViewById<ImageView>(R.id.img).setImageURI(data[pos]) // load image preview
 
         var fileName: String = "<NAME>"
+        var fileDate: String = "" // ""<missing date taken>"
         if(uri.scheme.equals("content")) { // but everything in the app should have use content scheme anyway
-            val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Images.Media.DISPLAY_NAME), null, null, null)
+//            val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN), null, null, null)
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+
+            Log.d(TAG, cursor.columnNames.joinToString())
             if (cursor != null && cursor.moveToFirst()) {
                 fileName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
                 fileName = FilenameUtils.removeExtension(fileName)
+                var index: Int
+                if(cursor.getColumnIndex("datetaken").also { index = it } != -1) ;
+                // fallback to last_modified date of file, if datataken are not present
+                else if (cursor.getColumnIndex("last_modified").also { index = it } != -1) ;
+
+                if(index >= 0) {
+                    val date = Date(cursor.getLong(index))
+                    val cal = Calendar.getInstance()
+                    cal.time = date
+                    fileDate += DateFormat.getTimeInstance(DateFormat.MEDIUM).format(date)
+                    fileDate += ", "
+                    fileDate += com.ibm.icu.text.MessageFormat.format("{0,ordinal}", cal.get(Calendar.DAY_OF_MONTH))
+                }
             }
         }
         itemView.findViewById<TextView>(R.id.name).text = fileName
-        itemView.findViewById<TextView>(R.id.time).text = data[pos].toString()
+        itemView.findViewById<TextView>(R.id.time).text = fileDate
 
         return itemView
     }
@@ -94,21 +118,3 @@ class PhotosAdapter(private val context: Context,
         this.notifyDataSetChanged()
     }
 }
-//class cz.velda.phozr.PhotosAdapter: RecyclerView.Adapter<Uri>() {
-//
-//    val data = mutableListOf<Uri>()
-//
-//    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-//        val inflater = LayoutInflater.from(p0.context)
-//        val view = inflater.inflate(R.layout.repo_layout, p0, false)
-//        return ViewHolder(view)
-//    }
-//
-//    override fun getItemCount(): Int = data.size
-//
-//    fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-//        p0.itemView.findViewById<ImageView>(R.id.img).setImageURI(data[p1])
-//    }
-//
-//    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
-//}
