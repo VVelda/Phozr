@@ -12,7 +12,6 @@ class Phozr : Application() {
     override fun onCreate() {
         super.onCreate()
         //Fresco.initialize(this)
-        Toast.makeText(this, "App started", Toast.LENGTH_SHORT).show()
     }
 }
 
