@@ -10,14 +10,12 @@
 
 	<RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent"
 	              android:orientation="vertical">
-		<com.ortiz.touchview.TouchImageView android:id="@+id/image1"
-		           android:layout_height="wrap_content"
-		           android:layout_width="match_parent"
-		           android:src="@drawable/dsc_2549"></com.ortiz.touchview.TouchImageView>
 		<com.ortiz.touchview.TouchImageView android:id="@+id/image2"
 		           android:layout_height="wrap_content"
-		           android:layout_width="wrap_content"
-		           android:src="@drawable/dsc_2550"></com.ortiz.touchview.TouchImageView>
+		           android:layout_width="match_parent"/>
+		<com.ortiz.touchview.TouchImageView android:id="@+id/image1"
+		           android:layout_height="wrap_content"
+		           android:layout_width="wrap_content"/>
 	</RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

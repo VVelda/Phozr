@@ -1,28 +1,19 @@
 package cz.velda.phozr
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity;
-import kotlinx.android.synthetic.main.activity_main.*
-import android.app.Activity
-import android.provider.DocumentsContract
-import android.provider.MediaStore
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
-import java.io.File
-import java.net.URI
-import android.os.Environment.getExternalStorageDirectory
-import android.os.Build
-import android.os.Environment
-import android.R.id
-import android.content.*
-import android.support.v7.app.AlertDialog
-import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 val COMPARISON_PAIR = 2
@@ -62,19 +53,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
 //            photos.add(Uri.parse(preferences.getString("image2", "")))
         }
 
-        val flck = Flickr(this)
-        if(!flck.check())
-            flck.setup()
-
         adapter = PhotosAdapter(this, photos)
         photosList.adapter = adapter
         photosList.onItemClickListener = this
         photosUpdated()
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
         fab_comp.setOnClickListener(this)
         fab_add.setOnClickListener(this)
 
@@ -110,14 +93,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
             if(resultCode and ComparisonActivity.RESULT_FIRST != 0) {
                 win = im1
                 los = im2
-                Toast.makeText(this, "Top winner", Toast.LENGTH_SHORT).show()
             } else if(resultCode and ComparisonActivity.RESULT_SECND != 0) {
                 win = im2
                 los = im1
-                Toast.makeText(this, "Bottom winner", Toast.LENGTH_SHORT).show()
             }
             if(win >= 0) { // apply consequences only if winner was chosen
-                deleteImage(this, photos[los])
+                if(resultCode and ComparisonActivity.RESULT_UPLOD != 0) {
+                    Snackbar.make(findViewById(android.R.id.content), "The photo have been upload", Snackbar.LENGTH_LONG)
+                        .setAction("Show", {}).show()
+                }
+                if(resultCode and ComparisonActivity.RESULT_DELET != 0) {
+                    deleteImage(this, photos[los])
+                    Snackbar.make(findViewById(android.R.id.content), "The photo have been erased", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", {}).show()
+                }
                 photos.remove(photos[los])
                 adapter.notifyDataSetChanged()
             }
@@ -148,24 +137,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
                     }
                 }
                 activityComparison(im1, im2)
-//                val uri = photos[0]
-//                deleteImage(uri)
-//                Log.d("TAG", getImagePath(uri))
-//                Log.d("TAG", getPath(uri))
-//                val fdelete = File(URI(uri.getPath()))
-//                val fdelete = File(getImagePath(uri))
-//                DocumentsContract.deleteDocument(contentResolver, uri)
-//                grantUriPermission(applicationContext.packageName,uri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-//                contentResolver.delete(uri, null, null)
-//                if (fdelete.exists()) {
-//                    if (fdelete.delete()) {
-//                        System.out.println("file Deleted :" + uri.getPath())
-//                    } else {
-//                        System.out.println("file not Deleted :" + uri.getPath())
-//                    }
-//                } else
-//                    Log.d("TAG", "not exists")
-//                fdelete.delete()
             }
         }
     }

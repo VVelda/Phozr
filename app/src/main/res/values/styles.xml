@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 	<!-- Base application theme. -->
 	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,8 +8,14 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="android:windowBackground">@color/background</item>
 
+		<item name="colorControlNormal">@color/colorPrimary</item>
+		<item name="colorButtonNormal">@color/colorPrimary</item>
+
+		<item name="colorBackgroundFloating">@color/background</item>
+
 		<item name="android:activatedBackgroundIndicator">@drawable/item_activated</item>
 		<item name="alertDialogTheme">@style/AlertDialog</item>
+		<item name="android:buttonStyleToggle">@style/ToggleButton</item>
 	</style>
 
 
@@ -23,5 +29,13 @@
 
 	<style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
 		<item name="colorAccent">@color/colorPrimary</item>
+		<item name="buttonBarNegativeButtonStyle">@style/NegativeButton</item>
+	</style>
+	<style name="NegativeButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+		<item name="android:textColor">@color/colorAccent</item>
+	</style>
+
+	<style name="ToggleButton" parent="android:Widget.DeviceDefault.Button.Toggle">
+		<item name="android:textColor">@android:color/white</item>
 	</style>
 </resources>

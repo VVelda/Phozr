@@ -1,58 +1,57 @@
 package cz.velda.phozr
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.net.Uri
-import android.opengl.Visibility
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceManager
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
+import com.ortiz.touchview.TouchImageView
 import kotlinx.android.synthetic.main.comparison_overlap.*
 
 
-class ComparisonOverlapActivity : AppCompatActivity() {
+class ComparisonOverlapActivity : ComparisonActivity(), View.OnTouchListener {
 
-    lateinit var preferences: SharedPreferences
-    lateinit var extras: Bundle
+    private lateinit var frontImage: TouchImageView
+    private lateinit var backImage: TouchImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.comparison_overlap)
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this)
-
-        extras = intent.extras
-        //this.image1.setImageURI(Uri.parse(preferences.getString("image1", "")))
-        this.image1.setImageURI(Uri.parse(this.intent.getStringExtra("image1")))
-        //this.image2.setImageURI(Uri.parse(preferences.getString("image2", "")))
-        this.image2.setImageURI(Uri.parse(this.intent.getStringExtra("image2")))
+        frontImage = image1
+        backImage = image2
+        image1.setOnTouchListener(this)
+        image2.setOnTouchListener(this)
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        // on touching display
-        swapPhotos()
-        return true
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        when(event!!.action) {
+            // show the photo below when user press finger on screen (without any gesture)
+            // must change opacity of the layer instead of visibility (View.VISIBLE / INVISIBLE)
+            //  which makes back image stealing touch events
+            MotionEvent.ACTION_UP ->
+                frontImage.alpha = 1f
+            MotionEvent.ACTION_DOWN ->
+                Handler().postDelayed({
+                    frontImage.alpha = 0f
+                }, 100) // wait some time if user does not start some gesture
+            else -> { // other events such as movement
+                frontImage.alpha = 1f
+            }
+        }
+        backImage.setZoom(frontImage)
+        return false
     }
 
     fun swapPhotos() {
-        // hide the top photo in order to reveal bottom one
-        if(this.image2.visibility == View.INVISIBLE)
-            this.image2.visibility = View.VISIBLE
-        else
-            this.image2.visibility = View.INVISIBLE
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
-        menuInflater.inflate(R.menu.comparison, menu)
-
-        return true
-
+        backImage.bringToFront()
+        with(frontImage) { // swap back and front images
+            frontImage = backImage
+            backImage = this
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

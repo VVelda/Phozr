@@ -48,6 +48,7 @@ class Flickr {
         // now open website in browser to allow user authorize app
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(authorizationUrl))
         startActivity(context, browserIntent, null)
+        Toast.makeText(context, R.string.FlickrSetUp, Toast.LENGTH_LONG).show()
     }
     fun finish(oauthVerifier: String): Boolean {
         val requestToken = OAuth1RequestToken(preferences.getString("flickr_token", ""), preferences.getString("flickr_secret",""))
